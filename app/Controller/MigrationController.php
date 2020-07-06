@@ -17,6 +17,7 @@
 			$mimes = array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','text/plain','text/csv','text/tsv');
 		
 		if(in_array($filename, $mimes)){
+			        $content = array(); 
 				$handle  = fopen($file['tmp_name'], 'r'); 
 				$row = 0;
 				while(($data  = fgetcsv($handle, 0, ",")) !== false) {
