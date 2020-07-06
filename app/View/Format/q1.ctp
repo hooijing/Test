@@ -4,32 +4,48 @@
 
 <?php echo $this->Form->create('Type',array('id'=>'form_type','type'=>'file','class'=>'','method'=>'POST','autocomplete'=>'off','inputDefaults'=>array(
 				
-				'label'=>false,'div'=>false,'type'=>'text','required'=>false)))?>
+				'label'=>false,'div'=>false,'type'=>'text','required'=>false),
+				
+				'url' => array('controller' => 'format', 'action' => 'q1_save')))?>
 	
 <?php echo __("Hi, please choose a type below:")?>
 <br><br>
 
-<?php $options_new = array(
- 		'Type1' => __('<span class="showDialog" data-id="dialog_1" style="color:blue">Type1</span><div id="dialog_1" class="hide dialog" title="Type 1">
- 				<span style="display:inline-block"><ul><li>Description .......</li>
- 				<li>Description 2</li></ul></span>
- 				</div>'),
-		'Type2' => __('<span class="showDialog" data-id="dialog_2" style="color:blue">Type2</span><div id="dialog_2" class="hide dialog" title="Type 2">
- 				<span style="display:inline-block"><ul><li>Desc 1 .....</li>
- 				<li>Desc 2...</li></ul></span>
- 				</div>')
-		);?>
+<?php 
+        $option = array(
+		array(
+		 'title' => 'Type1', 
+		 'content' => '<span><ul><li>Description .......</li>
+ 				        <li>Description 2</li></ul></span>'),
+		array(
+         'title' => 'Type2', 
+		 'content' => '<span><ul><li>Desc 1 .....</li>
+ 				       <li>Desc 2...</li></ul></span>')		
+						);
+
+?>
+	
+<?php 
+         $options_new = array();
+		 foreach($option as $id => $options){
+		         $options_new[$options['title']] ='<span class="popup" data-id="' . $id . '">' . $options['title'] . '</span><div class="style_popover" id="' . $id . '">' . $options['content'] . '</div>';
+		 }
+		 
+		 
+		 ?>
 
 <?php echo $this->Form->input('type', array('legend'=>false, 'type' => 'radio', 'options'=>$options_new,'before'=>'<label class="radio line notcheck">','after'=>'</label>' ,'separator'=>'</label><label class="radio line notcheck">'));?>
 
 
-<?php echo $this->Form->end();?>
+<?php echo $this->Form->end(array(
+				'label' => 'save'
+			));?>
 
 </div>
 
 <style>
-.showDialog:hover{
-	text-decoration: underline;
+.style_popover {
+	display: none;
 }
 
 #message1 .radio{
@@ -51,15 +67,16 @@
 <script>
 
 $(document).ready(function(){
-	$(".dialog").dialog({
-		autoOpen: false,
-		width: '500px',
-		modal: true,
-		dialogClass: 'ui-dialog-blue'
+	$(".popup").popover({
+      trigger: 'hover',
+      content: function() {
+	        var typeId = $(this).data('id');
+			return $('#' + typeId).html();
+	  },
+	  html: true
 	});
 
-	
-	$(".showDialog").click(function(){ var id = $(this).data('id'); $("#"+id).dialog('open'); });
+
 
 })
 
