@@ -24,7 +24,7 @@
 					if ($row !== 0) {$content[] = array(
 							           'Member' => $data[0],
 							           'Transaction' => $data[1],
-									   'TransactionItem' => $data[2]);
+								   'TransactionItem' => $data[2]);
 					}$row ++;
 				}$this->Member->saveAll($content, array('deep' => true));
 			}
